@@ -1,4 +1,7 @@
-﻿<CascadingAuthenticationState>
+﻿﻿@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
+<CascadingAuthenticationState>
     <Router AppAssembly="@typeof(App).Assembly">
         <Found Context="routeData">
             <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
@@ -12,3 +15,32 @@
         </NotFound>
     </Router>
 </CascadingAuthenticationState>
+@code {
+
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        if (!await IsUserAuthenticatedAsync())
+        {
+            RedirectToLogin();
+        }
+
+
+    }
+
+    private async Task<bool> IsUserAuthenticatedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        var identity = user.Identity;
+
+        return identity.IsAuthenticated;
+    }
+
+    private void RedirectToLogin()
+    {
+        NavigationManager.NavigateTo("/Identity/Account/Login");
+    }
+}
