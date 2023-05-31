@@ -5,6 +5,8 @@ VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geovenci", "Geovenci\Geovenci.csproj", "{9DADD80B-B02F-473A-B91F-0BE140B506B2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geovenci.Data", "Geovenci.Data\Geovenci.Data.csproj", "{3D99D56A-CA2A-4F52-BAD1-A8991A931098}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{9DADD80B-B02F-473A-B91F-0BE140B506B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9DADD80B-B02F-473A-B91F-0BE140B506B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9DADD80B-B02F-473A-B91F-0BE140B506B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D99D56A-CA2A-4F52-BAD1-A8991A931098}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D99D56A-CA2A-4F52-BAD1-A8991A931098}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D99D56A-CA2A-4F52-BAD1-A8991A931098}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D99D56A-CA2A-4F52-BAD1-A8991A931098}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
