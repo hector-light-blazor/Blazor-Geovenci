@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geovenci", "Geovenci\Geovenci.csproj", "{9DADD80B-B02F-473A-B91F-0BE140B506B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Geovenci", "Geovenci\Geovenci.csproj", "{9DADD80B-B02F-473A-B91F-0BE140B506B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geovenci.Data", "Geovenci.Data\Geovenci.Data.csproj", "{3D99D56A-CA2A-4F52-BAD1-A8991A931098}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Geovenci.Data", "Geovenci.Data\Geovenci.Data.csproj", "{3D99D56A-CA2A-4F52-BAD1-A8991A931098}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

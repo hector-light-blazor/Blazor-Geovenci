@@ -1,9 +1,56 @@
 ﻿@page "/"
 
-<PageTitle>Index</PageTitle>
+<PageTitle>Projects</PageTitle>
 
-<h1>Hello, world!</h1>
+<div class="container">
+    <MudDataGrid T="MapProject" Hover="true" Items="@Elements"
+                 EditMode="DataGridEditMode.Form" ReadOnly="false"
+                 EditTrigger="DataGridEditTrigger.Manual"
+                
+                 SortMode="SortMode.Multiple" Filterable="true" 
+                 Bordered="true" Dense="true"
+                 Hideable="true">
+        <ToolBarContent>
+           
+            <MudText Typo="Typo.h6">Sanitation Patrol - Accounts</MudText>
 
-Welcome to your new app.
+            <MudTextField Placeholder="Search" Adornment="Adornment.Start" Immediate="true"
+                          AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        </ToolBarContent>
+        <Columns>
+            <PropertyColumn Property="x => x.Id" IsEditable="false" />
+            <PropertyColumn Property="x => x.Name" Title="Project Name" />
+           
+        </Columns>
+        <PagerContent>
+            <MudDataGridPager T="MapProject" />
+        </PagerContent>
+    </MudDataGrid>
+  
+</div>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+@code {
+    private bool _hidePosition;
+    private bool _loading;
+    private List<MapProject> Elements = new List<MapProject>();
+
+    protected override void OnInitialized()
+    {
+        Elements.Add(new MapProject
+            {
+
+                Id = 1,                Name = "Project 1"            });
+
+        Elements.Add(new MapProject
+            {
+
+                Id = 2,
+                Name = "Project 2"
+
+            });
+    }
+
+
+
+}
+

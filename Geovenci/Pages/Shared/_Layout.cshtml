@@ -8,8 +8,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
-
-    <environment include="Development">
+    <link rel="stylesheet" href="../../css/bootstrap/bootstrap.min.css" />
+@*    <environment include="Development">
         <link rel="stylesheet" href="~/Identity/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/Identity/css/site.css" />
     </environment>
@@ -19,7 +19,7 @@
               asp-fallback-href="~/Identity/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/Identity/css/site.css" asp-append-version="true" />
-    </environment>
+    </environment>*@
 
     <style>
         * {
@@ -49,9 +49,23 @@
             min-height: 100%;
             object-fit: contain;
         }
+
+        .bg-glass {
+            background: rgba(115, 115, 115, 0.11);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(14.8px);
+            -webkit-backdrop-filter: blur(14.8px);
+            border: 1px solid rgba(115, 115, 115, 0.15);
+        }
         h1, h2{
             color: white;
         }
+
+        .btn-primary{
+            
+        }
+     
     </style>
 </head>
 <body>
@@ -62,7 +76,7 @@
     </div>
     <div class="container">
         <partial name="_CookieConsentPartial" optional />
-        <main role="main" class="pb-1 d-flex justify-content-center align-items-center min-vh-100">
+        <main role="main" class="pb-1 d-flex justify-content-center align-items-center min-vw-100 min-vh-100">
             @RenderBody()
         </main>
     </div>
