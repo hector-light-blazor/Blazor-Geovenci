@@ -1,21 +1,39 @@
 ﻿@inherits LayoutComponentBase
 
-<PageTitle>Geovenci</PageTitle>
 <MudThemeProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
-<div class="page">
-    <div class="bg-glass sidebar">
-        <NavMenu />
-    </div>
 
-    <main>
-        <div class="top-row px-4 bg-glass">
-            <LoginDisplay />
-        </div>
+<MudLayout>
+    <MudAppBar Class="bg-glass">
 
-        <article class="content px-4">
+        Geovenci 2.0
+        <MudSpacer />
+        <AuthorizeView>
+           
+            <MudMenu>
+                <ActivatorContent>
+                    <MudAvatar role="button" Color="Color.Primary">@context.User?.Identity?.Name?.Substring(0, 1)</MudAvatar>
+                </ActivatorContent>
+                <ChildContent>
+                    <MudMenuItem>Enlist</MudMenuItem>
+                    <MudMenuItem>Barracks</MudMenuItem>
+                    <MudMenuItem>
+                        <form method="post" action="Identity/Account/Logout">
+                            <button type="submit" class="nav-link btn btn-link">Log out</button>
+                        </form>
+                    </MudMenuItem>
+                </ChildContent>
+            </MudMenu>
+        </AuthorizeView>
+    </MudAppBar>
+
+    <MudMainContent Class="d-flex justify-content-center align-items-center min-vw-100 min-vh-100">
+        <MudContainer MaxWidth="MaxWidth.Medium">
             @Body
-        </article>
-    </main>
-</div>
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
+@code {
+  
+}
