@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using NetTopologySuite.Geometries;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -7,11 +8,18 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Geovenci.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class InitApp : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AlterDatabase()
+                .Annotation("Npgsql:PostgresExtension:postgis", ",,");
+
+            migrationBuilder.CreateSequence(
+                name: "EntityFrameworkHiLoSequence",
+                incrementBy: 10);
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -31,6 +39,8 @@ namespace Geovenci.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
+                    FirstName = table.Column<string>(type: "text", nullable: true),
+                    LastName = table.Column<string>(type: "text", nullable: true),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -49,6 +59,44 @@ namespace Geovenci.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "HistoricalChanges",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    EntityId = table.Column<int>(type: "integer", nullable: false),
+                    ModificationSource = table.Column<string>(type: "text", nullable: true),
+                    ModificationType = table.Column<string>(type: "text", nullable: true),
+                    ModificationJsonData = table.Column<string>(type: "text", nullable: true),
+                    CreateDateUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HistoricalChanges", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MapProjects",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false),
+                    Extent = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    ProjectStartDateUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ProjectDueDateUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedBy = table.Column<string>(type: "text", nullable: false),
+                    CreatedAtUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "text", nullable: true),
+                    UpdatedAtUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MapProjects", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -157,6 +205,65 @@ namespace Geovenci.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Layers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    MapProjectId = table.Column<int>(type: "integer", nullable: false),
+                    Geometry = table.Column<Geometry>(type: "geography", nullable: true),
+                    CreatedBy = table.Column<string>(type: "text", nullable: false),
+                    CreatedAtUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "text", nullable: true),
+                    UpdatedAtUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Layers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Layers_MapProjects_MapProjectId",
+                        column: x => x.MapProjectId,
+                        principalTable: "MapProjects",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MapLayerUsers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ProjectId = table.Column<int>(type: "integer", nullable: false),
+                    LayerId = table.Column<int>(type: "integer", nullable: false),
+                    ApplicationUserId = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MapLayerUsers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MapLayerUsers_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MapLayerUsers_Layers_LayerId",
+                        column: x => x.LayerId,
+                        principalTable: "Layers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MapLayerUsers_MapProjects_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "MapProjects",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -193,6 +300,31 @@ namespace Geovenci.Data.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Layers_MapProjectId",
+                table: "Layers",
+                column: "MapProjectId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MapLayerUsers_ApplicationUserId",
+                table: "MapLayerUsers",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MapLayerUsers_Id",
+                table: "MapLayerUsers",
+                column: "Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MapLayerUsers_LayerId",
+                table: "MapLayerUsers",
+                column: "LayerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MapLayerUsers_ProjectId",
+                table: "MapLayerUsers",
+                column: "ProjectId");
         }
 
         /// <inheritdoc />
@@ -214,10 +346,25 @@ namespace Geovenci.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "HistoricalChanges");
+
+            migrationBuilder.DropTable(
+                name: "MapLayerUsers");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Layers");
+
+            migrationBuilder.DropTable(
+                name: "MapProjects");
+
+            migrationBuilder.DropSequence(
+                name: "EntityFrameworkHiLoSequence");
         }
     }
 }

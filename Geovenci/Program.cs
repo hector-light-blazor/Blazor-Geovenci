@@ -1,6 +1,12 @@
+using dymaptic.GeoBlazor.Core;
 using Geovenci.Areas.Identity;
 using Geovenci.Data;
+using Geovenci.Data.Entities;
 using Geovenci.Data.Extension;
+using Geovenci.Data.Repositories;
+using Geovenci.Data.Repositories.Interfaces;
+using Geovenci.Service.Services;
+using Geovenci.Service.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
@@ -13,29 +19,38 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
-    options.UseNpgsql(connectionString));
+//builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
+//    options.UseNpgsql(connectionString));
 
 builder.Services.AddDbContextFactory<GeovenciAppDbContext>(options =>
     options.UseNpgsql(connectionString, o => o.UseNetTopologySuite()));
 
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<GeovenciAppDbContext>();
+
+
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
-builder.Services.AddSingleton<WeatherForecastService>();
+builder.Services.AddScoped<IMapRepo, MapRepo>();
+builder.Services.AddScoped<IMapService, MapService>();
+
+//GeoBlazor
+builder.Services.AddGeoBlazor();
+
 
 //Add Mud Services
 builder.Services.AddMudServices();
 
 var app = builder.Build();
 
+
 //Run Migrations.
-app.ApplyMigration<ApplicationDbContext>()
-   .ApplyMigration<GeovenciAppDbContext>();
+app
+.ApplyMigration<GeovenciAppDbContext>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -20,14 +20,16 @@ namespace Geovenci.Data.Entities
 
 
         [Required]
-        public DateTime ProjectStartDate { get; set; }
+        public DateTime ProjectStartDateUtc { get; set; }
 
         [Required]
 
-        public DateTime ProjectDueDate { get; set; }
+        public DateTime ProjectDueDateUtc { get; set; }
 
 
 
         public ICollection<Layer> Layers { get; set; }
+
+        public ICollection<MapLayerUser> MapLayerUsers { get; set; }
     }
 }

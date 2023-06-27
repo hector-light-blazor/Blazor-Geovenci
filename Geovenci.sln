@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Geovenci", "Geovenci\Geoven
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Geovenci.Data", "Geovenci.Data\Geovenci.Data.csproj", "{3D99D56A-CA2A-4F52-BAD1-A8991A931098}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geovenci.Service", "Geovenci.Service\Geovenci.Service.csproj", "{A98D4729-8E7B-423B-9D65-132604089BE1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geovenci.Models", "Geovenci.Models\Geovenci.Models.csproj", "{242C0578-ABA5-436C-94C7-19A258685817}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{3D99D56A-CA2A-4F52-BAD1-A8991A931098}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D99D56A-CA2A-4F52-BAD1-A8991A931098}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D99D56A-CA2A-4F52-BAD1-A8991A931098}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A98D4729-8E7B-423B-9D65-132604089BE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A98D4729-8E7B-423B-9D65-132604089BE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A98D4729-8E7B-423B-9D65-132604089BE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A98D4729-8E7B-423B-9D65-132604089BE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{242C0578-ABA5-436C-94C7-19A258685817}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{242C0578-ABA5-436C-94C7-19A258685817}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{242C0578-ABA5-436C-94C7-19A258685817}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{242C0578-ABA5-436C-94C7-19A258685817}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

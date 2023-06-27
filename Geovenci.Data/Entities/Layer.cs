@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Geovenci.Data.Entities
 {
-    public class Layer : EntityBase
+    public class Layer : EntityBase 
     {
         [Key]
         public int Id { get; set; }
@@ -20,11 +20,12 @@ namespace Geovenci.Data.Entities
 
         public int MapProjectId { get; set; }
 
-
-        [Column(TypeName="geography")]
+        [Column(TypeName = "geography")]
         public Geometry? Geometry { get; set; }
 
         public MapProject? MapProject { get; set; }  
 
+
+        public ICollection<MapLayerUser> MapLayerUsers { get; set; }
     }
 }

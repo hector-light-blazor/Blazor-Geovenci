@@ -7,18 +7,20 @@ using System.Threading.Tasks;
 
 namespace Geovenci.Data
 {
-    public class EntityBase
+    public abstract class EntityBase
     {
         [Required]
         public string CreatedBy { get; set; } = string.Empty;
 
         [Required]
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedAtUtc { get; set; }
 
-        [Required]
-        public string UpdatedBy { get; set; } = string.Empty;
+    
+        public string? UpdatedBy { get; set; } = string.Empty;
 
-        [Required]
-        public DateTime UpdatedAt { get; set; }
+  
+        public DateTime? UpdatedAtUtc { get; set; }
+
+        public bool IsDeleted { get; set; } = false;
     }
 }

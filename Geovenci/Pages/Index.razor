@@ -1,9 +1,19 @@
 ﻿@page "/"
+@using System.Text.Json;
+@using dymaptic.GeoBlazor.Core.Components.Geometries;
+@inject IMapService MapService
 
 <PageTitle>Projects</PageTitle>
 
-<div class="container">
-    <MudDataGrid T="MapProject" Hover="true" Items="@Elements"
+    <MapView @ref="_view" Style="height: 400px; width: 100%; min-height: 100vh"  AllowDefaultEsriLogin="false" Zoom="14">
+    <MudButton OnClick="OnClickMap" Variant="Variant.Filled" Color="Color.Primary">Save Extent</MudButton>
+        <Map ArcGISDefaultBasemap="arcgis-topographic">
+
+
+        </Map>
+
+    </MapView>
+    @*<MudDataGrid T="MapProject" Hover="true" Items="@Elements"
                  EditMode="DataGridEditMode.Form" ReadOnly="false"
                  EditTrigger="DataGridEditTrigger.Manual"
                 
@@ -26,11 +36,11 @@
         <PagerContent>
             <MudDataGridPager T="MapProject" />
         </PagerContent>
-    </MudDataGrid>
+    </MudDataGrid>*@
 
-</div>
 
 @code {
+    private MapView? _view;
     private bool _hidePosition;
     private bool _loading;
     private List<MapProject> Elements = new List<MapProject>();
@@ -40,7 +50,10 @@
         Elements.Add(new MapProject
             {
 
-                Id = 1,                Name = "Project 1"            });
+                Id = 1,
+                Name = "Project 1"
+
+            });
 
         Elements.Add(new MapProject
             {
@@ -49,6 +62,31 @@
                 Name = "Project 2"
 
             });
+    }
+
+        private async Task OnClickMap()
+        {
+            if (_view is not null)
+            {
+                Extent? extent = await _view.GetExtent();
+                if (extent is null) return;
+
+                var _extentJson = JsonSerializer.Serialize(extent, new JsonSerializerOptions
+                {
+                    WriteIndented = true
+                }).Replace(" ", "");
+
+                var mapProject = new DTO.MapProject
+                    {
+                        Name = "Test Map Project",
+                        Extent = _extentJson
+
+                    };
+                await MapService.CreateMapProject(mapProject);
+            }
+            
+        
+        }
     }
 
 
